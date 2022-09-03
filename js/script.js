@@ -41,11 +41,20 @@ window.addEventListener('DOMContentLoaded', () => {
     const deadline = '2022-09-15';
     
     function leftTime(date) {
-        const time = Date.parse(date) - Date.parse(new Date()),
-              days = Math.floor(time / (1000 * 60 * 60 * 24)),
-              hours = Math.floor((time / (1000 * 60 * 60)) % 24),
-              minutes = Math.floor((time / (1000 * 60)) % 60),
-              seconds = Math.floor((time / 1000) % 60);
+        let days,hours, minutes, seconds;
+        const time = Date.parse(date) - Date.parse(new Date());
+        if (time <= 0) {
+            days = 0;
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+        } else {
+            days = Math.floor(time / (1000 * 60 * 60 * 24)),
+            hours = Math.floor((time / (1000 * 60 * 60)) % 24),
+            minutes = Math.floor((time / (1000 * 60)) % 60),
+            seconds = Math.floor((time / 1000) % 60);
+        }
+              
         return {
             'total': time,
             'days': days,
