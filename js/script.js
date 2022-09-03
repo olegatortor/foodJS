@@ -37,4 +37,56 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     //TABS END
+    //TIMER START
+    const deadline = '2022-09-15';
+    
+    function leftTime(date) {
+        const time = Date.parse(date) - Date.parse(new Date()),
+              days = Math.floor(time / (1000 * 60 * 60 * 24)),
+              hours = Math.floor((time / (1000 * 60 * 60)) % 24),
+              minutes = Math.floor((time / (1000 * 60)) % 60),
+              seconds = Math.floor((time / 1000) % 60);
+        return {
+            'total': time,
+            'days': days,
+            'hours': hours,
+            'minutes': minutes,
+            'seconds': seconds
+        };
+    }
+
+    function addZero(num) {
+        if (num >= 0 && num < 10) {
+            return `0${num}`;
+        } else {
+            return num;
+        }
+    }
+
+    function getTime(selector, end) {
+        const timer = document.querySelector(selector),
+              day = timer.querySelector('#days'),
+              hours = timer.querySelector('#hours'),
+              minutes = timer.querySelector('#minutes'),
+              seconds = timer.querySelector('#seconds'),
+              timeInterval = setInterval(updateClock, 1000);
+        
+        updateClock();
+
+        function updateClock() {
+            const arrTime = leftTime(end);
+
+            day.textContent = addZero(arrTime.days);
+            hours.textContent = addZero(arrTime.hours);
+            minutes.textContent = addZero(arrTime.minutes);
+            seconds.textContent = addZero(arrTime.seconds);
+
+            if (arrTime.total === 0) {
+                clearInterval(timeInterval);
+            }
+        }
+    }
+
+    getTime('.timer', deadline);
+    //TIMER END
 });
