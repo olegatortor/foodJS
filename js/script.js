@@ -238,31 +238,30 @@ window.addEventListener('DOMContentLoaded', () => {
             `;
             form.insertAdjacentElement('afterend', statusMassage);
 
-            const request = new XMLHttpRequest();
-            request.open('POST', 'server.php');
-            request.setRequestHeader('Content-type', 'application/json');
             const formData = new FormData(form);
-            const object = {};
 
+            const object = {};
             formData.forEach((value, key) => {
                 object[key] = value;
             });
 
-            request.send(JSON.stringify(object));
-
-            request.addEventListener('load', () => {
-                statusMassage.remove();
-                if (request.status === 200) {
-                    console.log(request.response); 
-                    showThanksModal(formsMassage.success);
-                    form.reset();                    
-                } else {
-                    showThanksModal(formsMassage.fail);
-                    form.reset();
+            fetch('server.php', {
+                method: 'POST',
+                body: JSON.stringify(object),
+                headers: {
+                    'Content-type': 'application/json'
                 }
-                setTimeout(() => {
-                    statusMassage.remove();
-                }, 2000);
+            }).then(data => data.text())
+            .then(data => {
+                console.log(data); 
+                showThanksModal(formsMassage.success);
+            })
+            .catch(() => {
+                showThanksModal(formsMassage.fail);
+            })
+            .finally(() => {
+                statusMassage.remove();
+                form.reset();
             });
         });
     }
@@ -280,16 +279,14 @@ window.addEventListener('DOMContentLoaded', () => {
                 <div class="modal__title">${message}</div>
             </div>
         `;
-        document.querySelector('.modal').append(thanksModal);
+        modal.append(thanksModal);
 
         setTimeout(() => {
             thanksModal.remove();
             prevModalDialog.classList.add('active', 'fade');
             prevModalDialog.classList.remove('hide');
             closeModal();
-        }, 10000);
+        }, 3000);
     }
     //end sending data
-
-
 }); 
