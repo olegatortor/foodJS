@@ -223,25 +223,26 @@ window.addEventListener('DOMContentLoaded', () => {
         fail: 'Ошибка!'
     };
 
-    forms.forEach((item) => {
-        sendData(item);
+    forms.forEach(form => {
+        postForm(form);
     });
 
-    function sendData(form) {
+    function postForm(form) {
         form.addEventListener('submit', (e) => {
             e.preventDefault();
-            const statusMassage = document.createElement('img');
-            statusMassage.src = formsMassage.load;
-            statusMassage.style.cssText = `
+
+            let statusMessage = document.createElement('img');
+            statusMessage.src = formsMassage.load;
+            statusMessage.style.cssText = `
                 display: block;
                 margin: 0 auto;
             `;
-            form.insertAdjacentElement('afterend', statusMassage);
+            form.insertAdjacentElement('afterend', statusMessage);
 
             const formData = new FormData(form);
 
             const object = {};
-            formData.forEach((value, key) => {
+            formData.forEach(function (value, key) {
                 object[key] = value;
             });
 
@@ -249,19 +250,20 @@ window.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 body: JSON.stringify(object),
                 headers: {
-                    'Content-type': 'application/json'
+                    'Content-Type': 'application/json'
                 }
-            }).then(data => data.text())
+            })
+            .then(data => data.text())
             .then(data => {
-                console.log(data); 
+                console.log(data);
                 showThanksModal(formsMassage.success);
             })
             .catch(() => {
                 showThanksModal(formsMassage.fail);
             })
             .finally(() => {
-                statusMassage.remove();
                 form.reset();
+                statusMessage.remove();
             });
         });
     }
@@ -289,4 +291,9 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 3000);
     }
     //end sending data
+
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(res => console.log(res));
+
 }); 
