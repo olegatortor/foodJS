@@ -190,11 +190,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const getResource = async (url) => {
         const res = await fetch(url);
 
-
+        if (!res.ok) {
+            throw new Error(`${url}: ${res.status}`);
+        }
     
         return await res.json();
     };
-    console.log('http://localhost:3000/menu');
 
     getResource('http://localhost:3000/menu')
         .then(data => {
@@ -280,10 +281,4 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }, 3000);
     }
-    //end sending data
-
-    // fetch('http://localhost:3000/menu')
-    //     .then(data => data.json())
-    //     .then(res => console.log(res));
-
 }); 
