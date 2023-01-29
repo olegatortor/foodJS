@@ -295,7 +295,7 @@ window.addEventListener('DOMContentLoaded', () => {
     let indexSlide = 0;
     let offset = 0;
     let dotsArr = [];
-    const numWidth = +width.slice(0, width.length - 2);
+    const numWithStr = (str) => +str.replace(/\D/g, '');
 
     sliderWrapper.style.cssText = `overflow: hidden`;
     sliderInner.style.cssText = `display: flex; width: ${100 * slides.length}%; transition: all .5s`;
@@ -319,10 +319,10 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     nextSlide.addEventListener('click', () => {
-        if (offset == numWidth * (slides.length - 1)) {
+        if (offset == numWithStr(width) * (slides.length - 1)) {
             offset = 0;
         } else {
-            offset += numWidth;
+            offset += numWithStr(width);
         }
 
         sliderInner.style.transform = `translateX(-${offset}px)`;
@@ -338,9 +338,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     prevSlide.addEventListener('click', () => {
         if (offset == 0) {
-            offset = numWidth * (slides.length - 1);
+            offset = numWithStr(width) * (slides.length - 1);
         } else {
-            offset -= numWidth;
+            offset -= numWithStr(width);
         }
         
         sliderInner.style.transform = `translateX(-${offset}px)`;
@@ -374,7 +374,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     dotsArr.forEach(el => {
         el.addEventListener('click', () => {
-            offset = dotsArr.indexOf(el) * numWidth;
+            offset = dotsArr.indexOf(el) * numWithStr(width);
             sliderInner.style.transform = `translateX(-${offset}px)`;
             indexSlide = dotsArr.indexOf(el);   
             changeIndex();
@@ -419,4 +419,5 @@ window.addEventListener('DOMContentLoaded', () => {
     // });
     
     //SLIDER END
+
 }); 
