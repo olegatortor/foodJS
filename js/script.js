@@ -419,5 +419,72 @@ window.addEventListener('DOMContentLoaded', () => {
     // });
     
     //SLIDER END
+    //CALC START
+    const result = document.querySelector('.calculating__result span');
+    let sex = 'female',
+        height, weight, age,
+        ratio = 1.375;
+
+    function toCalc() {
+        if (!sex || !height || !weight || !age || !ratio){
+            result.textContent = 'Ошибка!';
+            return;
+        }
+
+        if (sex === 'female') {
+            result.textContent = Math.round((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
+        } else {
+            result.textContent = Math.round((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
+        }
+    }
+    toCalc();
+
+    function getStaticInformation(parent, active) {
+        const list = document.querySelectorAll(`${parent} div`);
+
+        list.forEach(el => {
+            el.addEventListener('click', (e) => {
+                if (e.target.getAttribute('data-ratio')) {
+                    ratio = +e.target.getAttribute('data-ratio');
+                } else {
+                    sex = e.target.getAttribute('id');
+                }
+
+                list.forEach(els => {
+                    els.classList.remove(active);
+                });
+
+                e.target.classList.add(active);
+                toCalc();
+            });
+        });
+    }
+    getStaticInformation('#gender', 'calculating__choose-item_active');
+    getStaticInformation('.calculating__choose_big', 'calculating__choose-item_active');
+
+    function getVarInformation(selector) {
+        const input = document.querySelector(selector);
+
+        input.addEventListener('input', () => {
+            switch (input.getAttribute('id')){
+                case 'height':
+                    height = +input.value;
+                    break;
+                case 'weight':
+                    weight = +input.value;
+                    break;
+                case 'age':
+                    age = +input.value;
+                    break;       
+            }
+            toCalc();
+        });
+    }
+    
+    getVarInformation('#height');
+    getVarInformation('#weight');
+    getVarInformation('#age');
+
+    //CALC END
 
 }); 
