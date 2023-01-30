@@ -467,6 +467,12 @@ window.addEventListener('DOMContentLoaded', () => {
         const input = document.querySelector(selector);
 
         input.addEventListener('input', (e) => {
+            if (input.value.match(/[^\d.]/g)) {
+                input.style.cssText = 'color:red; border: 1px solid red';
+            } else {
+                input.style.cssText = 'color:unset; border: unset';
+            }
+
             switch(e.target.getAttribute('id')) {
                 case 'height':
                     height = +input.value;
@@ -475,14 +481,14 @@ window.addEventListener('DOMContentLoaded', () => {
                     weight = +input.value;
                     break;
                 case 'age':
-                    age = +input.value;
+                    weight = +input.value;
                     break;  
             }
 
             calcTotal();
         });
     }
-
+    localStorage.setItem('g', 3);
     getDynamicInformation('#height');
     getDynamicInformation('#weight');
     getDynamicInformation('#age');
