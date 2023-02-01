@@ -1,3 +1,4 @@
+import { postForm } from "../services/service";
 import { openModal, closeModal } from "./modal";
 
 function forms(modalSelector, modalStart) {
@@ -12,18 +13,6 @@ function forms(modalSelector, modalStart) {
     forms.forEach(form => {
         bindPostForm(form);
     });
-
-    const postForm = async (url, data) => {
-        const res = await fetch(url, {
-            method: 'POST',
-            body: JSON.stringify(data),
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-
-        return await res.json();
-    };
 
     function bindPostForm(form) {
         form.addEventListener('submit', (e) => {
