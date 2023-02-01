@@ -1,4 +1,6 @@
-function forms() {
+import { openModal, closeModal } from "./modal";
+
+function forms(modalSelector, modalStart) {
     const forms = document.querySelectorAll('form');
 
     const formsMassage = {
@@ -55,10 +57,12 @@ function forms() {
     }
 
     function showThanksModal(message) {
-        const prevModalDialog = modal.querySelector('.modal__dialog');
+        const modal = document.querySelector(modalSelector),
+
+              prevModalDialog = modal.querySelector('.modal__dialog');
         prevModalDialog.classList.add('hide');
 
-        openModal();
+        openModal('.modal', modalStart);
         const thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
         thanksModal.innerHTML = `
@@ -73,9 +77,9 @@ function forms() {
             thanksModal.remove();
             prevModalDialog.classList.add('active', 'fade');
             prevModalDialog.classList.remove('hide');
-            closeModal();
+            closeModal('.modal');
         }, 3000);
     }
 }
 
-module.exports = forms;
+export default forms;

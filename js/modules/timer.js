@@ -61,4 +61,4 @@ function timer() {
     setClock('.timer', '2023-02-06:00:00');
 }
 
-module.exports = timer;
+export default timer;
